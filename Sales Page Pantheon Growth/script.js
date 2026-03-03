@@ -1,5 +1,5 @@
 // ============================================
-// INTRO ANIMATION → HEADER TRANSITION
+// INTRO ANIMATION → SOPHISTICATED TRANSITION
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,23 +7,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.getElementById('header');
     const mainContent = document.getElementById('mainContent');
     
+    // Lock scroll during intro
     document.body.style.overflow = 'hidden';
     
+    // Sophisticated fade out timing
     setTimeout(() => {
+        // Start fade out
         introScreen.classList.add('hidden');
-        header.classList.add('visible');
-        mainContent.classList.add('visible');
-        document.body.style.overflow = 'auto';
         
+        // Delay header/content appearance slightly for smoother transition
+        setTimeout(() => {
+            header.classList.add('visible');
+            mainContent.classList.add('visible');
+            document.body.style.overflow = 'auto';
+        }, 400); // Header appears 400ms into intro fade
+        
+        // Remove intro from DOM after complete fade
         setTimeout(() => {
             if (introScreen && introScreen.parentNode) {
                 introScreen.remove();
             }
-        }, 800);
+        }, 1200); // Match CSS transition duration
         
-        createFloatingParticles();
+        // Initialize particles after intro starts fading
+        setTimeout(() => {
+            createFloatingParticles();
+        }, 600);
         
-    }, 2500);
+    }, 2400); // Total intro display time
 });
 
 // ============================================
