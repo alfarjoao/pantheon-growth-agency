@@ -496,8 +496,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 '90-day optimization roadmap'
             ],
             supportBadge: '8–10 WEEKS BUILD',
-            // Logo de fundo (lado direito)
-            symbol: `<img src="assets/images/logo/foundation-logo.png" alt="Foundation" style="width: 100%; height: 100%; object-fit: contain; opacity: 0.08; filter: grayscale(0.5);">`
+            // Logo de fundo (lado direito) - MESMA IMAGEM DO SELECTOR
+            symbolImage: 'assets/images/logo/colum-no-background.png'
         },
         
         growth: {
@@ -514,8 +514,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 '6-month performance optimization included'
             ],
             supportBadge: '10–14 WEEKS BUILD',
-            // Logo de fundo (lado direito)
-            symbol: `<img src="assets/images/logo/growth-logo.png" alt="Growth" style="width: 100%; height: 100%; object-fit: contain; opacity: 0.08; filter: grayscale(0.5);">`
+            // Logo de fundo (lado direito) - MESMA IMAGEM DO SELECTOR
+            symbolImage: 'assets/images/logo/roman_eagle-removebg-preview.png'
         },
         
         dominance: {
@@ -532,8 +532,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Quarterly deep-dive audits + strategic pivots'
             ],
             supportBadge: '14–18 WEEKS BUILD',
-            // Logo Pantheon Growth de fundo (lado direito)
-            symbol: `<img src="assets/images/logo/pantheon-growth-logo.png" alt="Pantheon Growth" style="width: 100%; height: 100%; object-fit: contain; opacity: 0.08; filter: grayscale(0.5);">`
+            // Logo Pantheon Growth de fundo (lado direito) - MESMA IMAGEM DO SELECTOR
+            symbolImage: 'assets/images/logo/pantheon-growth.png'
         }
     };
 
@@ -682,7 +682,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }).join('');
     }
 
-    // ===== UPDATE PACK DETAILS (COLUNA DIREITA) =====
+    // ===== UPDATE PACK DETAILS (COLUNA DIREITA COM LOGO) =====
     function updatePackDetails(packName) {
         const detailsContainer = document.getElementById('pack-details');
         
@@ -698,7 +698,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         setTimeout(() => {
             detailsContainer.innerHTML = `
-                <div class="pack-symbol-bg">${pack.symbol}</div>
+                <div class="pack-symbol-bg">
+                    <img src="${pack.symbolImage}" alt="${pack.name} Logo" class="symbol-logo">
+                </div>
                 <div class="details-header">
                     <h3 class="details-name">${pack.name}</h3>
                     <div class="details-price">${pack.price} <span>one-time investment</span></div>
@@ -733,7 +735,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add active class to clicked option
             this.classList.add('active');
             
-            // Update logo styles (remove need for stroke attribute change)
+            // Update logo styles
             document.querySelectorAll('.pack-logo').forEach(logo => {
                 logo.style.opacity = '0.7';
                 logo.style.filter = 'grayscale(0.3) brightness(0.9)';
@@ -773,5 +775,59 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ Pricing section initialized successfully');
 
 }); // End DOMContentLoaded
+
+/* ========================================
+   SECTION 12: FAQ ACCORDION FUNCTIONALITY
+   ======================================== */
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const faqItems = document.querySelectorAll('.faq-item');
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    
+    if (faqQuestions.length === 0) {
+        console.error('No FAQ questions found');
+        return;
+    }
+    
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', function() {
+            const faqItem = this.parentElement;
+            const isActive = faqItem.classList.contains('active');
+            
+            // Close all other items
+            faqItems.forEach(item => {
+                item.classList.remove('active');
+                item.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+            });
+            
+            // Toggle clicked item
+            if (!isActive) {
+                faqItem.classList.add('active');
+                this.setAttribute('aria-expanded', 'true');
+                
+                // Smooth scroll into view if needed
+                setTimeout(() => {
+                    const rect = faqItem.getBoundingClientRect();
+                    const isVisible = (
+                        rect.top >= 0 &&
+                        rect.bottom <= window.innerHeight
+                    );
+                    
+                    if (!isVisible) {
+                        faqItem.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'nearest' 
+                        });
+                    }
+                }, 300);
+            }
+        });
+    });
+    
+    console.log('✅ FAQ accordion initialized');
+    
+}); // End DOMContentLoaded
+
 
 console.log('%cTeam Section Loaded', 'font-size: 12px; color: #C4A86A;');
